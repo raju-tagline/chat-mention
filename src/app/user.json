@@ -1,0 +1,38 @@
+[
+    {
+      "id": 10001,
+      "user_name": "raju.tagline",
+      "name": "Raju Tagline",
+      "email": "raju.tagline@gmail.com"
+    },
+    {
+      "id": 10002,
+      "user_name": "tejas.tagline",
+      "name": "Tejas Tagline",
+      "email": "tejas.tagline@gmail.com"
+    },
+    {
+      "id": 10003,
+      "user_name": "arvind.tagline",
+      "name": "Arvind Tagline",
+      "email": "arvind.tagline@gmail.com"
+    },
+    {
+      "id": 10004,
+      "user_name": "pratik.tagline",
+      "name": "Pratik Tagline",
+      "email": "pratik.tagline@gmail.com"
+    },
+    {
+      "id": 10005,
+      "user_name": "mansi.tagline",
+      "name": "Mansi Tagline",
+      "email": "mansi.tagline@gmail.com"
+    },
+    {
+      "id": 10006,
+      "user_name": "kunjal.tagline",
+      "name": "Kunjal Tagline",
+      "email": "kunjal.tagline@gmail.com"
+    }
+  ]
