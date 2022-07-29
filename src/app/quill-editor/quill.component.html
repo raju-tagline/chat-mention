@@ -11,22 +11,15 @@
 </div>
 <div class="row m-0 mt-2 justify-content-center">
   <div class="col-6">
-    <!-- <quill-view-html [content]=""></quill-view-html> -->
     <button class="btn btn-primary" (click)="getText()">Text</button>
   </div>
 </div>
 
-<!-- <p [innerHtml]="editor.quillEditor?.root?.innerHTML"></p> -->
-<!-- <p>{{ editor.quillEditor?.root?.innerHTML }}</p> -->
 <div class="row m-0 justify-content-center">
-    <div class="col-10">
-        <ng-container *ngIf="text?.length">
-            <p>{{ text }}</p>
-            <!-- 111 <p>{{ text1 }}</p>
-            222 <p>{{ text2 }}</p> -->
-            <!-- <p [innerHtml]="text"></p>
-            <br />
-            <p> {{ editor.quillEditor.root.innerHTML }}</p> --> <br>
-          </ng-container>
-    </div>
+  <div class="col-10">
+    <ng-container *ngIf="text?.length">
+      <p>{{ text }}</p>
+      <br />
+    </ng-container>
+  </div>
 </div>

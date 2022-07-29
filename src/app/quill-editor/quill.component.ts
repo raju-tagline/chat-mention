@@ -16,29 +16,12 @@ export class QuillComponent implements OnInit {
 
   public text: any;
   public text1: any;
-  public text2: any;
   public format = 'html';
   public quillForm!: FormGroup;
   public textStyle: any;
 
   modules = {
     toolbar: false,
-    // toolbar: {
-    //   container: [
-    //     ['bold', 'italic', 'underline', 'strike'], // toggled buttons
-    //     ['code-block'],
-    //     [{ header: 1 }, { header: 2 }], // custom button values
-    //     [{ list: 'ordered' }, { list: 'bullet' }],
-    //     ['clean'], // remove formatting button
-    //     ['link'],
-    //     ['source'],
-    //   ],
-    //   handlers: {
-    //     source: () => {
-    //       this.formatChange();
-    //     },
-    //   },
-    // },
     mention: {
       mentionListClass: 'ql-mention-list mat-elevation-z8',
       allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
@@ -47,7 +30,6 @@ export class QuillComponent implements OnInit {
       onSelect: (item: any, insertItem: any) => {
         const editor = this.editor.quillEditor;
         insertItem(item);
-        // necessary because quill-mention triggers changes as 'api' instead of 'user'
         editor.insertText(editor.getLength() - 1, '', 'user');
       },
       source: (searchTerm: any, renderList: any) => {
@@ -90,48 +72,26 @@ export class QuillComponent implements OnInit {
     icons['source'] = '[source]';
   }
 
-  // formatChange() {
-  //   this.format = this.format === 'html' ? 'text' : 'html';
-  //   if (this.format === 'text') {
-  //     // HTML
-  //     const htmlText = this.quillForm.value.editor;
-  //     this.editor.quillEditor.setText(htmlText);
-  //   } else if (this.format === 'html') {
-  //     // TEXT
-  //     const htmlText = this.quillForm.value.editor;
-  //     this.editor.quillEditor.setText('');
-  //     this.editor.quillEditor.pasteHTML(0, htmlText);
-  //   }
-  // }
-
   getText() {
     const commentText = document.querySelectorAll('span.mention');
     let id: any = [];
     let value: any = [];
-    commentText.forEach((btn) => id.push(btn.getAttribute('data-id')));
-    commentText.forEach((btn) => value.push(btn.getAttribute('data-value')));
+    commentText.forEach(
+      (btn) =>
+        id.push(btn.getAttribute('data-id')) &&
+        value.push(btn.getAttribute('data-value'))
+    );
     id.map((element: any, indexIds: any) => {
       const { ops }: any = this.editor.quillEditor.getContents();
       ops.map((ele: any) => {
         value.map((resp: any, indexVal: any) => {
           if (ele?.insert?.mention?.id === element && indexIds === indexVal) {
-            this.text1 = this.editor.quillEditor.root.innerHTML.replace(
-              new RegExp(value[0], 'gm'),
-              `${id[0]}`
-            );
-            this.text1 = this.text1.replace(
-              new RegExp(value[1], 'gm'),
-              `${id[1]}`
-            );
-            this.text2 = this.editor.quillEditor.root.innerHTML.replace(
-              new RegExp(value[1], 'gm'),
-              `${id[1]}`
-            );
-            this.text = this.editor.quillEditor.root.innerHTML.replace(
-              new RegExp(value[indexVal], 'gm'),
-              `${id[indexIds]}`
-            );
-            // this.text = newIndex;
+            this.editor.quillEditor.root.innerHTML =
+              this.editor.quillEditor.root.innerHTML.replace(
+                new RegExp(value[indexVal], 'gm'),
+                `${id[indexIds]}`
+              );
+            this.text = this.editor.quillEditor.root.innerHTML;
           }
         });
       });
