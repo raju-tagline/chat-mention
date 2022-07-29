@@ -100,5 +100,6 @@ export class QuillComponent implements OnInit {
       // input.setAttribute('value', element);
     });
     // this.text = this.editor.quillEditor.root.innerHTML.replace(/p>/g, 'div>');
+    this.quillForm.reset();
   }
 }
