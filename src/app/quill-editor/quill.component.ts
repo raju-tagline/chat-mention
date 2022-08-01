@@ -1,9 +1,16 @@
 import { FormGroup, FormControl } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { QuillEditorComponent } from 'ngx-quill';
-import * as UserData from '../user.json';
+import User from '../user.json';
 import 'quill-mention';
 import Quill from 'quill';
+
+interface User {
+  email: string;
+  id: number;
+  name: string;
+  user_name: string;
+}
 
 @Component({
   selector: 'app-quill',
@@ -14,11 +21,10 @@ export class QuillComponent implements OnInit {
   @ViewChild(QuillEditorComponent, { static: true })
   editor!: QuillEditorComponent;
 
-  public text: any;
-  public text1: any;
-  public format = 'html';
+  public text!: String;
+  public text1!: String;
+  public userData: User[] = User;
   public quillForm!: FormGroup;
-  public textStyle: any;
 
   modules = {
     toolbar: false,
@@ -33,9 +39,7 @@ export class QuillComponent implements OnInit {
         editor.insertText(editor.getLength() - 1, '', 'user');
       },
       source: (searchTerm: any, renderList: any) => {
-        Object.values(UserData)[Object.keys(UserData).length - 1];
-        const values: any =
-          Object.values(UserData)[Object.keys(UserData).length - 1];
+        const values: any = this.userData;
         const userValues: any = values.map((res: any) => {
           if (res) {
             return {
@@ -81,24 +85,28 @@ export class QuillComponent implements OnInit {
         id.push(btn.getAttribute('data-id')) &&
         value.push(btn.getAttribute('data-value'))
     );
-    id.map((element: any, indexIds: any) => {
+    id.map((element: string, indexIds: number) => {
       const { ops }: any = this.editor.quillEditor.getContents();
       ops.map((ele: any) => {
-        value.map((resp: any, indexVal: any) => {
+        value.map((resp: string, indexVal: number) => {
           if (ele?.insert?.mention?.id === element && indexIds === indexVal) {
             this.editor.quillEditor.root.innerHTML =
               this.editor.quillEditor.root.innerHTML.replace(
                 new RegExp(value[indexVal], 'gm'),
                 `${id[indexIds]}`
               );
+            //If don't need to change data-value name then uncomment the belove two lines
+            // let input = document.querySelectorAll('span.mention')[indexIds];
+            // input.setAttribute('data-value', resp);
             this.text = this.editor.quillEditor.root.innerHTML;
           }
         });
       });
-      // let input = document.querySelectorAll('span.mention')[index];
-      // input.setAttribute('data-value', element);
       // input.setAttribute('value', element);
     });
+    if (!id.length && !value.length) {
+      this.text = this.editor.quillEditor.root.innerHTML;
+    }
     // this.text = this.editor.quillEditor.root.innerHTML.replace(/p>/g, 'div>');
     this.quillForm.reset();
   }
